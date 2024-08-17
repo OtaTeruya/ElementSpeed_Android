@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,15 +16,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import kotlin.math.min
 
-class Player1Fragment : Fragment() {
+class Player1Fragment(private val callback: MyCallback) : Fragment() {
+    private lateinit var viewModel: GameViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +43,8 @@ class Player1Fragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 Surface(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.Transparent
                 ) {
                     Player1FragmentScreen()
                 }
@@ -39,11 +52,55 @@ class Player1Fragment : Fragment() {
         }
     }
 
+    private fun tryToPlay(bahudaIndex: Int, daihudaIndex: Int): Boolean {
+        val bahuda = viewModel.getBahudas1p()[bahudaIndex]
+        val daihuda = viewModel.getDaihudas()[daihudaIndex]
+
+        if (bahuda==null || daihuda==null) {
+            return true
+        }
+
+        if (Judge().isBahudaPlaybale(bahuda, daihuda)) {
+            callback.playBahuda(1, bahudaIndex, daihudaIndex)
+            return true
+        }
+
+        return false
+    }
+
+    private fun swipeCard(start: Offset?, end: Offset?, width: Int) {
+        if (start==null || end==null) {
+            return
+        }
+
+        val bahudas1p = viewModel.getBahudas1p()
+        val bahudaLength = bahudas1p.size
+        val bahudaIndex = min(
+            (start.x / (width.toDouble()/bahudaLength.toDouble())).toInt(),
+            bahudaLength-1 //IndexOutOfRangeを防ぐ
+        )
+
+        val horizontalVector = end.x - start.x
+
+        println(Pair(bahudaIndex, horizontalVector))
+
+        if (horizontalVector < -10) {//左に動いた場合
+            tryToPlay(bahudaIndex, 0)
+        }
+        if (horizontalVector > 10) {//右に動いた場合
+            tryToPlay(bahudaIndex, 1)
+        }
+    }
+
     @Composable
     fun Player1FragmentScreen() {
-        val viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
         val bahudas1p by viewModel.bahudas1p.observeAsState()
         val tehudaNumber1p by viewModel.tehudaNumber1p.observeAsState()
+
+        var startTapPosition by remember {mutableStateOf<Offset?>(null)}
+        var endTapPosition by remember {mutableStateOf<Offset?>(null)}
+        var rowWidth by remember { mutableIntStateOf(0) }
 
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
@@ -56,8 +113,25 @@ class Player1Fragment : Fragment() {
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned {coordinates -> rowWidth = coordinates.size.width}
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDragStart = { offset ->
+                                // ドラッグ開始時の座標を保存
+                                startTapPosition = offset
+                            },
+                            onDrag = { change, _ ->
+                                endTapPosition = change.position
+                            },
+                            onDragEnd = {
+                                // ドラッグ終了時の処理
+                                swipeCard(startTapPosition, endTapPosition, rowWidth)
+                            }
+                        )
+                    },
             ) {
                 for (i in bahudas1p?.indices!!) {
                     Card(bahudas1p!![i])

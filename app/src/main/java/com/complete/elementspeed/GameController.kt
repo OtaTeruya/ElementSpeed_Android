@@ -26,9 +26,9 @@ class GameController(private val viewModel: GameViewModel,
             tehudaNumber = viewModel.getTehudaNumber2p()
         }
         else {//playerNumber==1
-            bahudas = viewModel.getBahudas2p().toMutableList()
-            tehudas = viewModel.getTehudas2p().toMutableList()
-            tehudaNumber = viewModel.getTehudaNumber2p()
+            bahudas = viewModel.getBahudas1p().toMutableList()
+            tehudas = viewModel.getTehudas1p().toMutableList()
+            tehudaNumber = viewModel.getTehudaNumber1p()
         }
 
         daihuda[daihudaIndex] = bahudas[bahudaIndex] //カードを台札に出す
@@ -52,6 +52,8 @@ class GameController(private val viewModel: GameViewModel,
             viewModel.updateTehudas1p(tehudas)
             viewModel.updateTehudaNumber1p(tehudaNumber)
         }
+
+        completion()
     }
 
     fun resetDaihudas() {

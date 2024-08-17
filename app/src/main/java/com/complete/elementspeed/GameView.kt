@@ -22,7 +22,7 @@ class GameView: AppCompatActivity(), MyCallback {
             .commit()
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.ly1p, Player1Fragment())
+            .replace(R.id.ly1p, Player1Fragment(this))
             .commit()
 
         supportFragmentManager.beginTransaction()

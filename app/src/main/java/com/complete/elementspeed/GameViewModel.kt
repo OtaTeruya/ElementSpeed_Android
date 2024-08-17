@@ -44,14 +44,14 @@ class GameViewModel: ViewModel() {
         tehudas1p.value = value
     }
     fun getTehudas1p(): List<Element?> {
-        return tehudas2p.value!!
+        return tehudas1p.value!!
     }
 
     fun updateTehudaNumber1p(value: Int) {
         tehudaNumber1p.value = value
     }
     fun getTehudaNumber1p(): Int {
-        return tehudaNumber2p.value!!
+        return tehudaNumber1p.value!!
     }
 
     fun updateDaihudas(value: List<Element?>) {

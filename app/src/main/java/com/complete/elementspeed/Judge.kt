@@ -3,7 +3,7 @@ package com.complete.elementspeed
 import kotlin.math.abs
 
 class Judge {
-    private fun isBahudaPlaybale(bahuda: Element, daihuda: Element): Boolean {
+    fun isBahudaPlaybale(bahuda: Element, daihuda: Element): Boolean {
         //原子番号が一つ違いの場合
         if (abs(bahuda.elementNumber - daihuda.elementNumber) == 1) {
             return true
