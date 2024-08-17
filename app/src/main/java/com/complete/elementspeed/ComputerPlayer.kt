@@ -54,16 +54,22 @@ class ComputerPlayer(private val viewModel: GameViewModel, private val callback:
                 break
             }
             bahudaIndex = i
+            if (bahudas2p[bahudaIndex] == null) {
+                continue
+            }
 
             for (j in daihudas.indices) {
                 if (isPlayable) {
                     break
                 }
                 daihudaIndex = j
+                if (daihudas[daihudaIndex] == null) {
+                    continue
+                }
 
                 isPlayable = judge.isBahudaPlaybale(
-                    bahudas2p[bahudaIndex],
-                    daihudas[daihudaIndex]
+                    bahudas2p[bahudaIndex]!!,
+                    daihudas[daihudaIndex]!!
                 )
             }
         }

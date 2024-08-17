@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Card(element: Element) {
+fun Card(element: Element?) {
     Column(
         modifier = Modifier
             .size(
@@ -22,14 +22,16 @@ fun Card(element: Element) {
             )
             .background(Color.Gray)
     ){
-        Spacer(modifier = Modifier.weight(1f))
+        if (element != null) {
+            Spacer(modifier = Modifier.weight(1f))
 
-        Text(
-            text = element.elementNameJa,
-            fontSize = 28.sp,
-            color = Color.Black
-        )
+            Text(
+                text = element.elementNameJa,
+                fontSize = 28.sp,
+                color = Color.Black
+            )
 
-        Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
+        }
     }
 }

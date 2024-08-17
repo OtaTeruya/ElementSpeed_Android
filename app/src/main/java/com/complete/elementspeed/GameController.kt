@@ -2,6 +2,7 @@ package com.complete.elementspeed
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.max
 
 class GameController(private val viewModel: GameViewModel,
                      private val isLocalPlay: Boolean) {
@@ -18,8 +19,8 @@ class GameController(private val viewModel: GameViewModel,
         //あと二つ同時に来た時も何とかした方がいいかも。少し待ってもらうみたいな。
 
         val daihuda = viewModel.getDaihudas().toMutableList()
-        val bahudas: MutableList<Element>
-        val tehudas: MutableList<Element>
+        val bahudas: MutableList<Element?>
+        val tehudas: MutableList<Element?>
         var tehudaNumber: Int
         if (playerNumber == 2) {
             bahudas = viewModel.getBahudas2p().toMutableList()
@@ -33,9 +34,15 @@ class GameController(private val viewModel: GameViewModel,
         }
 
         daihuda[daihudaIndex] = bahudas[bahudaIndex] //カードを台札に出す
-        tehudaNumber -= 1 //手札の枚数を一枚減らす
+        tehudaNumber = max(0, tehudaNumber-1) //手札の枚数を一枚減らす
 
-        bahudas[bahudaIndex] = tehudas[tehudaNumber-1] //出したところに手札からカードを出す
+        if (tehudaNumber == 0) {
+            bahudas[bahudaIndex] = null
+        }
+        else {
+            bahudas[bahudaIndex] = tehudas[tehudaNumber-1] //出したところに手札からカードを出す
+        }
+
 
         if (playerNumber == 2) {
             viewModel.updateDaihudas(daihuda)
