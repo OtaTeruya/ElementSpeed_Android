@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 
 class DaihudaFragment : Fragment() {
     override fun onCreateView(
@@ -35,6 +38,8 @@ class DaihudaFragment : Fragment() {
 
     @Composable
     fun DaihudaFragmentScreen() {
+        val viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
+        val daihuda by viewModel.daihudas.observeAsState()
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center
@@ -43,11 +48,9 @@ class DaihudaFragment : Fragment() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Card(Element(1,1,
-                    "H", "水素", "Hydrogen", 1.0))
-
-                Card(Element(1,1,
-                    "H", "水素", "Hydrogen", 1.0))
+                for (i in daihuda?.indices!!) {
+                    Card(daihuda!![i])
+                }
             }
         }
     }

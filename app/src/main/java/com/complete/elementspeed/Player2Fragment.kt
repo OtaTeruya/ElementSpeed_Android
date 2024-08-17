@@ -13,14 +13,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 
 class Player2Fragment : Fragment() {
     override fun onCreateView(
@@ -40,6 +41,10 @@ class Player2Fragment : Fragment() {
 
     @Composable
     fun Player2FragmentScreen() {
+        val viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
+        val bahudas2p by viewModel.bahudas2p.observeAsState()
+        val tehudaNumber2p by viewModel.tehudaNumber2p.observeAsState()
+
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.Start
@@ -48,21 +53,13 @@ class Player2Fragment : Fragment() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Card(Element(1,1,
-                    "H", "水素", "Hydrogen", 1.0))
-
-                Card(Element(1,1,
-                    "H", "水素", "Hydrogen", 1.0))
-
-                Card(Element(1,1,
-                    "H", "水素", "Hydrogen", 1.0))
-
-                Card(Element(1,1,
-                    "H", "水素", "Hydrogen", 1.0))
+                for (i in bahudas2p?.indices!!) {
+                    Card(bahudas2p!![i])
+                }
             }
 
             Text(
-                text = "残り\n20枚",
+                text = tehudaNumber2p.toString(),
                 fontSize = 16.sp,
                 modifier = Modifier.padding(8.dp)
             )
