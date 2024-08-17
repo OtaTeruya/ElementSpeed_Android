@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 
-class GameView: AppCompatActivity() {
+class GameView: AppCompatActivity(), MyCallback {
     private val tehudaGenerator = TehudaGenerator()
+    private lateinit var computerPlayer: ComputerPlayer
+    private lateinit var gameController: GameController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,23 @@ class GameView: AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.ly_daihuda, DaihudaFragment())
             .commit()
+
+        computerPlayer = ComputerPlayer(
+            ViewModelProvider(this)[GameViewModel::class.java], this
+        )
+        gameController = GameController(
+            ViewModelProvider(this)[GameViewModel::class.java], true
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        computerPlayer.startRepeatingTask()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        computerPlayer.stopRepeatingTask()
     }
 
     private fun initializeAllCard() {
@@ -47,4 +66,12 @@ class GameView: AppCompatActivity() {
         }
         viewModel.updateDaihudas(daihudaList)
     }
+
+    override fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int) {
+        gameController.playBahuda(playerNumber, bahudaIndex, daihudaIndex)
+    }
+}
+
+interface MyCallback {
+    fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int)
 }
