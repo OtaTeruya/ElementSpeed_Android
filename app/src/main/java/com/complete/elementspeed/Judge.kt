@@ -48,6 +48,24 @@ class Judge {
             }
         }
 
-        return Triple(isPlayable, daihudaIndex, bahudaIndex)
+        return Triple(isPlayable, bahudaIndex, daihudaIndex)
+    }
+
+    fun isToReset(viewModel: GameViewModel): Boolean {
+        //盤面に出せるカードが無ければリセットが必要になる
+        val (isPlayable2, _, _) = searchPlayableCard(viewModel.getBahudas2p(), viewModel.getDaihudas())
+        val (isPlayable1, _, _) = searchPlayableCard(viewModel.getBahudas1p(), viewModel.getDaihudas())
+        return (!isPlayable2 && !isPlayable1)
+    }
+
+    fun gameWinner(viewModel: GameViewModel): Int? {
+        var gameWinner: Int? = null
+        if (viewModel.getBahudas2p().all { it == null }) {
+            gameWinner = 2
+        }
+        else if (viewModel.getBahudas1p().all { it == null }) {
+            gameWinner = 1
+        }
+        return gameWinner
     }
 }

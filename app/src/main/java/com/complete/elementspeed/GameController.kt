@@ -1,7 +1,5 @@
 package com.complete.elementspeed
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlin.math.max
 
 class GameController(private val viewModel: GameViewModel,
@@ -14,7 +12,7 @@ class GameController(private val viewModel: GameViewModel,
         val timeStamp: String
     )
 
-    fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int) {
+    fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int, completion: () -> Unit) {
         //logを取る処理は後で考える
         //あと二つ同時に来た時も何とかした方がいいかも。少し待ってもらうみたいな。
 
@@ -43,18 +41,25 @@ class GameController(private val viewModel: GameViewModel,
             bahudas[bahudaIndex] = tehudas[tehudaNumber-1] //出したところに手札からカードを出す
         }
 
-
+        viewModel.updateDaihudas(daihuda)
         if (playerNumber == 2) {
-            viewModel.updateDaihudas(daihuda)
             viewModel.updateBahudas2p(bahudas)
             viewModel.updateTehudas2p(tehudas)
             viewModel.updateTehudaNumber2p(tehudaNumber)
         }
         else {//playerNumber==1
-            viewModel.updateDaihudas(daihuda)
             viewModel.updateBahudas1p(bahudas)
             viewModel.updateTehudas1p(tehudas)
             viewModel.updateTehudaNumber1p(tehudaNumber)
         }
+    }
+
+    fun resetDaihudas() {
+        val daihuda = viewModel.getDaihudas().toMutableList()
+        val elementProvider = ElementProvider()
+        for (i in daihuda.indices) {
+            daihuda[i] = elementProvider.getRandomElement()
+        }
+        viewModel.updateDaihudas(daihuda)
     }
 }
