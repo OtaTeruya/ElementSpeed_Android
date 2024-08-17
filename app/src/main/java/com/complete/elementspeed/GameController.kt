@@ -56,11 +56,14 @@ class GameController(private val viewModel: GameViewModel,
         completion()
     }
 
-    fun resetDaihudas() {
+    fun resetDaihudasWhenNeeded() {
         val daihuda = viewModel.getDaihudas().toMutableList()
         val elementProvider = ElementProvider()
-        for (i in daihuda.indices) {
-            daihuda[i] = elementProvider.getRandomElement()
+        while (Judge().isToReset(viewModel)) {
+            //カードが出せない限りはリセットし続ける
+            for (i in daihuda.indices) {
+                daihuda[i] = elementProvider.getRandomElement()
+            }
         }
         viewModel.updateDaihudas(daihuda)
     }

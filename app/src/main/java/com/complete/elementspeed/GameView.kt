@@ -17,6 +17,9 @@ class GameView: AppCompatActivity(), MyCallback {
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
         initializeAllCard()
 
+        //カードが全く出せない場合はリセットを行う
+        gameController.resetDaihudasWhenNeeded()
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.ly2p, Player2Fragment())
             .commit()
@@ -73,9 +76,8 @@ class GameView: AppCompatActivity(), MyCallback {
             if (Judge().gameWinner(viewModel) != null) {
                 //勝者が決まった場合
             }
-            else if (Judge().isToReset(viewModel)) {
-                //リセットを行う
-                gameController.resetDaihudas()
+            else {
+                gameController.resetDaihudasWhenNeeded()
             }
         }
     }
