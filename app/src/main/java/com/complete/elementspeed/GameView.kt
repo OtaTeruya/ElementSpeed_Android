@@ -17,9 +17,6 @@ class GameView: AppCompatActivity(), MyCallback {
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
         initializeAllCard()
 
-        //カードが全く出せない場合はリセットを行う
-        gameController.resetDaihudasWhenNeeded()
-
         supportFragmentManager.beginTransaction()
             .replace(R.id.ly2p, Player2Fragment())
             .commit()
@@ -38,6 +35,9 @@ class GameView: AppCompatActivity(), MyCallback {
         gameController = GameController(
             ViewModelProvider(this)[GameViewModel::class.java], true
         )
+
+        //カードが全く出せない場合はリセットを行う
+        gameController.resetDaihudasWhenNeeded()
     }
 
     override fun onResume() {

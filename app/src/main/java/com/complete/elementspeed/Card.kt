@@ -6,7 +6,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,9 +18,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -49,23 +54,49 @@ fun Card(element: Element?) {
         }
     ) {it ->
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .size(
-                    (LocalConfiguration.current.screenWidthDp * 0.2).dp,
+                    (LocalConfiguration.current.screenWidthDp * 0.22).dp,
                     (LocalConfiguration.current.screenHeightDp * 0.2).dp
                 )
                 .background(if(it!=null) Color.Gray else Color.Transparent)
+                .padding(4.dp)
         ) {
             if (it != null) {
+                Row {
+                    Text(
+                        text = it.elementNumber.toString(),
+                        fontSize = 16.sp,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+
                 Spacer(modifier = Modifier.weight(1f))
 
-                Text(
+                AutoSizableText(
+                    text = it.elementSymbol,
+                    minFontSize = 12.sp,
+                    maxFontSize = 48.sp
+                )
+
+                AutoSizableText(
                     text = it.elementNameJa,
-                    fontSize = 28.sp,
-                    color = Color.Black
+                    minFontSize = 8.sp,
+                    maxFontSize = 16.sp
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
+
+                Row {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = it.elementGroup.toString(),
+                        fontSize = 16.sp,
+                        color = Color.Black
+                    )
+                }
             }
         }
     }
