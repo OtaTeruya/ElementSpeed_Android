@@ -43,36 +43,7 @@ class ComputerPlayer(private val viewModel: GameViewModel, private val callback:
         //出せるカードがあればプレイする
         val bahudas2p = viewModel.getBahudas2p()
         val daihudas = viewModel.getDaihudas()
-        println(bahudas2p.toString())
-
-        var isPlayable = false
-        var bahudaIndex = 0
-        var daihudaIndex = 0
-        val judge = Judge()
-        for (i in bahudas2p.indices) {
-            if (isPlayable) {
-                break
-            }
-            bahudaIndex = i
-            if (bahudas2p[bahudaIndex] == null) {
-                continue
-            }
-
-            for (j in daihudas.indices) {
-                if (isPlayable) {
-                    break
-                }
-                daihudaIndex = j
-                if (daihudas[daihudaIndex] == null) {
-                    continue
-                }
-
-                isPlayable = judge.isBahudaPlaybale(
-                    bahudas2p[bahudaIndex]!!,
-                    daihudas[daihudaIndex]!!
-                )
-            }
-        }
+        val (isPlayable, bahudaIndex, daihudaIndex) = Judge().searchPlayableCard(bahudas2p, daihudas)
 
         if (!isPlayable) {
             //プレイできるカードが無ければ
