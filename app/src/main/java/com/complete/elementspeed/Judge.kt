@@ -58,13 +58,13 @@ class Judge {
         return (!isPlayable2 && !isPlayable1)
     }
 
-    fun gameWinner(viewModel: GameViewModel): Int? {
-        var gameWinner: Int? = null
+    fun gameWinner(viewModel: GameViewModel): String? {
+        var gameWinner: String? = null
         if (viewModel.getBahudas2p().all { it == null }) {
-            gameWinner = 2
+            gameWinner = "コンピュータ"
         }
         else if (viewModel.getBahudas1p().all { it == null }) {
-            gameWinner = 1
+            gameWinner = "あなた"
         }
         return gameWinner
     }

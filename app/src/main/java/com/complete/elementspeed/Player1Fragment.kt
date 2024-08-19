@@ -82,8 +82,6 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
 
         val horizontalVector = end.x - start.x
 
-        println(Pair(bahudaIndex, horizontalVector))
-
         if (horizontalVector < -10) {//左に動いた場合
             tryToPlay(bahudaIndex, 0)
         }

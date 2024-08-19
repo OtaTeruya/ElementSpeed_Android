@@ -14,16 +14,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/ly2p"
+            android:id="@+id/ly_2p"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical" />
         <LinearLayout
-            android:id="@+id/ly1p"
+            android:id="@+id/ly_1p"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical" />
     </LinearLayout>
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/popup_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </FrameLayout>
