@@ -41,8 +41,8 @@ class ComputerPlayer(private val viewModel: GameViewModel, private val callback:
     // 実行する処理
     private fun tryToPlay() {
         //出せるカードがあればプレイする
-        val bahudas2p = viewModel.getBahudas2p()
-        val daihudas = viewModel.getDaihudas()
+        val bahudas2p = viewModel.bahudas2p.value
+        val daihudas = viewModel.daihudas.value
         val (isPlayable, bahudaIndex, daihudaIndex) = Judge().searchPlayableCard(bahudas2p, daihudas)
 
         if (!isPlayable) {

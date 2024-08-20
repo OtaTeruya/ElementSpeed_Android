@@ -16,19 +16,19 @@ class GameController(private val viewModel: GameViewModel,
         //logを取る処理は後で考える
         //あと二つ同時に来た時も何とかした方がいいかも。少し待ってもらうみたいな。
 
-        val daihuda = viewModel.getDaihudas().toMutableList()
+        val daihuda = viewModel.daihudas.value.toMutableList()
         val bahudas: MutableList<Element?>
         val tehudas: MutableList<Element?>
         var tehudaNumber: Int
         if (playerNumber == 2) {
-            bahudas = viewModel.getBahudas2p().toMutableList()
-            tehudas = viewModel.getTehudas2p().toMutableList()
-            tehudaNumber = viewModel.getTehudaNumber2p()
+            bahudas = viewModel.bahudas2p.value.toMutableList()
+            tehudas = viewModel.tehudas2p.value.toMutableList()
+            tehudaNumber = viewModel.tehudaNumber2p.value
         }
         else {//playerNumber==1
-            bahudas = viewModel.getBahudas1p().toMutableList()
-            tehudas = viewModel.getTehudas1p().toMutableList()
-            tehudaNumber = viewModel.getTehudaNumber1p()
+            bahudas = viewModel.bahudas1p.value.toMutableList()
+            tehudas = viewModel.tehudas1p.value.toMutableList()
+            tehudaNumber = viewModel.tehudaNumber1p.value
         }
 
         daihuda[daihudaIndex] = bahudas[bahudaIndex] //カードを台札に出す
@@ -57,7 +57,7 @@ class GameController(private val viewModel: GameViewModel,
     }
 
     fun resetDaihudasWhenNeeded() {
-        val daihuda = viewModel.getDaihudas().toMutableList()
+        val daihuda = viewModel.daihudas.value.toMutableList()
         val elementProvider = ElementProvider()
         while (Judge().isToReset(viewModel)) {
             //カードが出せない限りはリセットし続ける

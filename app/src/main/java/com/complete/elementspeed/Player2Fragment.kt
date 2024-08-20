@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -44,8 +45,8 @@ class Player2Fragment : Fragment() {
     @Composable
     fun Player2FragmentScreen() {
         val viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
-        val bahudas2p by viewModel.bahudas2p.observeAsState()
-        val tehudaNumber2p by viewModel.tehudaNumber2p.observeAsState()
+        val bahudas2p by viewModel.bahudas2p.collectAsState()
+        val tehudaNumber2p by viewModel.tehudaNumber2p.collectAsState()
 
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,

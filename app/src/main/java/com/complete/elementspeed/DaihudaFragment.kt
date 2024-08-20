@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -39,7 +40,7 @@ class DaihudaFragment : Fragment() {
     @Composable
     fun DaihudaFragmentScreen() {
         val viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
-        val daihuda by viewModel.daihudas.observeAsState()
+        val daihuda by viewModel.daihudas.collectAsState()
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center

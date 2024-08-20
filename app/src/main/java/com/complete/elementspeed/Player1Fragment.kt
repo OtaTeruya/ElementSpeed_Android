@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
@@ -53,8 +54,8 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
     }
 
     private fun tryToPlay(bahudaIndex: Int, daihudaIndex: Int): Boolean {
-        val bahuda = viewModel.getBahudas1p()[bahudaIndex]
-        val daihuda = viewModel.getDaihudas()[daihudaIndex]
+        val bahuda = viewModel.bahudas1p.value[bahudaIndex]
+        val daihuda = viewModel.daihudas.value[daihudaIndex]
 
         if (bahuda==null || daihuda==null) {
             return true
@@ -73,7 +74,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
             return
         }
 
-        val bahudas1p = viewModel.getBahudas1p()
+        val bahudas1p = viewModel.bahudas1p.value
         val bahudaLength = bahudas1p.size
         val bahudaIndex = min(
             (start.x / (width.toDouble()/bahudaLength.toDouble())).toInt(),
@@ -93,8 +94,8 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
     @Composable
     fun Player1FragmentScreen() {
         viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
-        val bahudas1p by viewModel.bahudas1p.observeAsState()
-        val tehudaNumber1p by viewModel.tehudaNumber1p.observeAsState()
+        val bahudas1p by viewModel.bahudas1p.collectAsState()
+        val tehudaNumber1p by viewModel.tehudaNumber1p.collectAsState()
 
         var startTapPosition by remember {mutableStateOf<Offset?>(null)}
         var endTapPosition by remember {mutableStateOf<Offset?>(null)}

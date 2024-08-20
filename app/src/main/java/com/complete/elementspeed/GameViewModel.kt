@@ -1,63 +1,56 @@
 package com.complete.elementspeed
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class GameViewModel: ViewModel() {
-    val bahudas2p: MutableLiveData<List<Element?>> = MutableLiveData(emptyList())
-    val tehudas2p: MutableLiveData<List<Element?>> = MutableLiveData(emptyList())
-    val tehudaNumber2p = MutableLiveData(0)
-    val bahudas1p: MutableLiveData<List<Element?>> = MutableLiveData(emptyList())
-    val tehudas1p: MutableLiveData<List<Element?>> = MutableLiveData(emptyList())
-    val tehudaNumber1p = MutableLiveData(0)
-    val daihudas: MutableLiveData<List<Element?>> = MutableLiveData(emptyList())
+    private val _bahudas2p = MutableStateFlow<List<Element?>>(emptyList())
+    val bahudas2p: StateFlow<List<Element?>> = _bahudas2p
+
+    private val _tehudas2p = MutableStateFlow<List<Element?>>(emptyList())
+    val tehudas2p: StateFlow<List<Element?>> = _tehudas2p
+
+    private val _tehudaNumber2p = MutableStateFlow(0)
+    val tehudaNumber2p: StateFlow<Int> = _tehudaNumber2p
+
+    private val _bahudas1p = MutableStateFlow<List<Element?>>(emptyList())
+    val bahudas1p: StateFlow<List<Element?>> = _bahudas1p
+
+    private val _tehudas1p = MutableStateFlow<List<Element?>>(emptyList())
+    val tehudas1p: StateFlow<List<Element?>> = _tehudas1p
+
+    private val _tehudaNumber1p = MutableStateFlow(0)
+    val tehudaNumber1p: StateFlow<Int> = _tehudaNumber1p
+
+    private val _daihudas = MutableStateFlow<List<Element?>>(emptyList())
+    val daihudas: StateFlow<List<Element?>> = _daihudas
 
     fun updateBahudas2p(value: List<Element?>) {
-        bahudas2p.value = value
-    }
-    fun getBahudas2p(): List<Element?> {
-        return bahudas2p.value!!
+        _bahudas2p.value = value
     }
 
     fun updateTehudas2p(value: List<Element?>) {
-        tehudas2p.value = value
-    }
-    fun getTehudas2p(): List<Element?> {
-        return tehudas2p.value!!
+        _tehudas2p.value = value
     }
 
     fun updateTehudaNumber2p(value: Int) {
-        tehudaNumber2p.value = value
-    }
-    fun getTehudaNumber2p(): Int {
-        return tehudaNumber2p.value!!
+        _tehudaNumber2p.value = value
     }
 
     fun updateBahudas1p(value: List<Element?>) {
-        bahudas1p.value = value
-    }
-    fun getBahudas1p(): List<Element?> {
-        return bahudas1p.value!!
+        _bahudas1p.value = value
     }
 
     fun updateTehudas1p(value: List<Element?>) {
-        tehudas1p.value = value
-    }
-    fun getTehudas1p(): List<Element?> {
-        return tehudas1p.value!!
+        _tehudas1p.value = value
     }
 
     fun updateTehudaNumber1p(value: Int) {
-        tehudaNumber1p.value = value
-    }
-    fun getTehudaNumber1p(): Int {
-        return tehudaNumber1p.value!!
+        _tehudaNumber1p.value = value
     }
 
     fun updateDaihudas(value: List<Element?>) {
-        daihudas.value = value
-    }
-    fun getDaihudas(): List<Element?> {
-        return daihudas.value!!
+        _daihudas.value = value
     }
 }

@@ -53,17 +53,17 @@ class Judge {
 
     fun isToReset(viewModel: GameViewModel): Boolean {
         //盤面に出せるカードが無ければリセットが必要になる
-        val (isPlayable2, _, _) = searchPlayableCard(viewModel.getBahudas2p(), viewModel.getDaihudas())
-        val (isPlayable1, _, _) = searchPlayableCard(viewModel.getBahudas1p(), viewModel.getDaihudas())
+        val (isPlayable2, _, _) = searchPlayableCard(viewModel.bahudas2p.value, viewModel.daihudas.value)
+        val (isPlayable1, _, _) = searchPlayableCard(viewModel.bahudas1p.value, viewModel.daihudas.value)
         return (!isPlayable2 && !isPlayable1)
     }
 
     fun gameWinner(viewModel: GameViewModel): String? {
         var gameWinner: String? = null
-        if (viewModel.getBahudas2p().all { it == null }) {
+        if (viewModel.bahudas2p.value.all { it == null }) {
             gameWinner = "コンピュータ"
         }
-        else if (viewModel.getBahudas1p().all { it == null }) {
+        else if (viewModel.bahudas1p.value.all { it == null }) {
             gameWinner = "あなた"
         }
         return gameWinner
