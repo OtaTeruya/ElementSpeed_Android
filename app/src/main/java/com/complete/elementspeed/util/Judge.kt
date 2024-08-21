@@ -11,8 +11,13 @@ class Judge {
             return true
         }
 
+        //同じ原子の場合は出せない
+        if (bahuda.elementNumber == daihuda.elementNumber) {
+            return false
+        }
+
         //同属の場合
-        if (bahuda.elementGroup == daihuda.elementGroup) {
+        if (bahuda.elementGroup==daihuda.elementGroup) {
             return true
         }
 
