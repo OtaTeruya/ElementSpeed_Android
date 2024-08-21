@@ -48,8 +48,8 @@ class DaihudaFragment : Fragment() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                for (i in daihuda?.indices!!) {
-                    Card(daihuda!![i])
+                for (i in daihuda.indices) {
+                    Card(daihuda[i])
                 }
             }
         }

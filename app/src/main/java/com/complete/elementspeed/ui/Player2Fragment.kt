@@ -55,8 +55,8 @@ class Player2Fragment : Fragment() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                for (i in bahudas2p?.indices!!) {
-                    Card(bahudas2p!![i])
+                for (i in bahudas2p.indices) {
+                    Card(bahudas2p[i])
                 }
             }
 

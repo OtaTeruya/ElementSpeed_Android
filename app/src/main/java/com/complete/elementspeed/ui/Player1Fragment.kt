@@ -140,8 +140,8 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
                         )
                     },
             ) {
-                for (i in bahudas1p?.indices!!) {
-                    Card(bahudas1p!![i])
+                for (i in bahudas1p.indices) {
+                    Card(bahudas1p[i])
                 }
             }
         }
