@@ -1,6 +1,7 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.ui
 
 import androidx.lifecycle.ViewModel
+import com.complete.elementspeed.data.Element
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

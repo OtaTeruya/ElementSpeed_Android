@@ -1,4 +1,4 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -1,5 +1,7 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.util
 
+import com.complete.elementspeed.data.Element
+import com.complete.elementspeed.ui.GameViewModel
 import kotlin.math.max
 
 class GameController(private val viewModel: GameViewModel) {

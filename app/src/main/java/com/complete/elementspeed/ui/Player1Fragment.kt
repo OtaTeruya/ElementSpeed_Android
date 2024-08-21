@@ -1,4 +1,4 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.complete.elementspeed.util.Judge
 import kotlin.math.min
 
 class Player1Fragment(private val callback: MyCallback) : Fragment() {

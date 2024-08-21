@@ -1,4 +1,4 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.ui
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.LocalTextStyle

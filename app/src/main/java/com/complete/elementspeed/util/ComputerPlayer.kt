@@ -1,5 +1,7 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.util
 
+import com.complete.elementspeed.ui.GameViewModel
+import com.complete.elementspeed.ui.MyCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

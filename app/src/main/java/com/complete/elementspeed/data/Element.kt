@@ -1,4 +1,4 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.data
 
 data class Element (
     val elementNumber: Int,

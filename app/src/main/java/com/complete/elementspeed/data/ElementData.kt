@@ -1,4 +1,4 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.data
 
 class ElementData {
     private val elements = listOf(
@@ -122,7 +122,7 @@ class ElementData {
         Element(118, 18, "Og", "オガネソン", "Oganesson", 294.0),
         )
 
-    fun getElement(elementNumber: Int): Element{
+    fun getElement(elementNumber: Int): Element {
         return elements[elementNumber-1]
     }
 }

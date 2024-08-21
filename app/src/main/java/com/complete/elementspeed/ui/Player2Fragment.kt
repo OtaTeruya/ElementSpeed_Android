@@ -1,4 +1,4 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,17 +9,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 
-class DaihudaFragment : Fragment() {
+class Player2Fragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,28 +35,36 @@ class DaihudaFragment : Fragment() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.Transparent
                 ) {
-                    DaihudaFragmentScreen()
+                    Player2FragmentScreen()
                 }
             }
         }
     }
 
     @Composable
-    fun DaihudaFragmentScreen() {
+    fun Player2FragmentScreen() {
         val viewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
-        val daihuda by viewModel.daihudas.collectAsState()
+        val bahudas2p by viewModel.bahudas2p.collectAsState()
+        val tehudaNumber2p by viewModel.tehudaNumber2p.collectAsState()
+
         Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.Start
         ){
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                for (i in daihuda?.indices!!) {
-                    Card(daihuda!![i])
+                for (i in bahudas2p?.indices!!) {
+                    Card(bahudas2p!![i])
                 }
             }
+
+            Text(
+                text = tehudaNumber2p.toString(),
+                fontSize = 16.sp,
+                modifier = Modifier.padding(8.dp)
+            )
         }
     }
 }

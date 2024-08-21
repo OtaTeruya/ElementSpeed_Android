@@ -1,4 +1,4 @@
-package com.complete.elementspeed
+package com.complete.elementspeed.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,10 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.ViewModelProvider
+import com.complete.elementspeed.util.ComputerPlayer
+import com.complete.elementspeed.data.Element
+import com.complete.elementspeed.util.ElementProvider
+import com.complete.elementspeed.util.GameController
+import com.complete.elementspeed.util.Judge
+import com.complete.elementspeed.R
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-class GameView: AppCompatActivity(), MyCallback {
+class GameActivity: AppCompatActivity(), MyCallback {
     private lateinit var viewModel: GameViewModel
     private val elementProvider = ElementProvider()
     private lateinit var computerPlayer: ComputerPlayer
@@ -113,7 +119,7 @@ class GameView: AppCompatActivity(), MyCallback {
             return
         }
         touchPermission = false
-        val iSend = Intent(this, GameView::class.java)
+        val iSend = Intent(this, GameActivity::class.java)
         startActivity(iSend)
         finish()
     }
