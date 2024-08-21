@@ -39,7 +39,7 @@ class ComputerPlayer(private val viewModel: GameViewModel, private val callback:
     }
 
     // 実行する処理
-    private fun tryToPlay() {
+    private suspend fun tryToPlay() {
         //出せるカードがあればプレイする
         val bahudas2p = viewModel.bahudas2p.value
         val daihudas = viewModel.daihudas.value

@@ -2,19 +2,9 @@ package com.complete.elementspeed
 
 import kotlin.math.max
 
-class GameController(private val viewModel: GameViewModel,
-                     private val isLocalPlay: Boolean) {
-    private val playLogs: List<PlayLog> = emptyList()
-    data class PlayLog (
-        val playerNumber: Int,
-        val bahudaIndex: Int,
-        val daihudaIndex: Int,
-        val timeStamp: String
-    )
-
+class GameController(private val viewModel: GameViewModel) {
     fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int, completion: () -> Unit) {
         //logを取る処理は後で考える
-        //あと二つ同時に来た時も何とかした方がいいかも。少し待ってもらうみたいな。
 
         val daihuda = viewModel.daihudas.value.toMutableList()
         val bahudas: MutableList<Element?>
@@ -64,7 +54,7 @@ class GameController(private val viewModel: GameViewModel,
             for (i in daihuda.indices) {
                 daihuda[i] = elementProvider.getRandomElement()
             }
+            viewModel.updateDaihudas(daihuda)
         }
-        viewModel.updateDaihudas(daihuda)
     }
 }

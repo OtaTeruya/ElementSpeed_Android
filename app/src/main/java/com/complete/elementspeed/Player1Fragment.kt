@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -53,7 +54,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
         }
     }
 
-    private fun tryToPlay(bahudaIndex: Int, daihudaIndex: Int): Boolean {
+    private suspend fun tryToPlay(bahudaIndex: Int, daihudaIndex: Int): Boolean {
         val bahuda = viewModel.bahudas1p.value[bahudaIndex]
         val daihuda = viewModel.daihudas.value[daihudaIndex]
 
@@ -69,7 +70,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
         return false
     }
 
-    private fun swipeCard(start: Offset?, end: Offset?, width: Int) {
+    private suspend fun swipeCard(start: Offset?, end: Offset?, width: Int) {
         if (start==null || end==null) {
             return
         }
@@ -99,7 +100,15 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
 
         var startTapPosition by remember {mutableStateOf<Offset?>(null)}
         var endTapPosition by remember {mutableStateOf<Offset?>(null)}
-        var rowWidth by remember { mutableIntStateOf(0) }
+        var rowWidth by remember {mutableIntStateOf(0)}
+        var isDragEnd by remember { mutableStateOf(false)}
+
+        LaunchedEffect(isDragEnd) {
+            if (isDragEnd) {
+                isDragEnd = false
+                swipeCard(startTapPosition, endTapPosition, rowWidth)
+            }
+        }
 
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
@@ -115,7 +124,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .onGloballyPositioned {coordinates -> rowWidth = coordinates.size.width}
+                    .onGloballyPositioned { coordinates -> rowWidth = coordinates.size.width }
                     .pointerInput(Unit) {
                         detectDragGestures(
                             onDragStart = { offset ->
@@ -126,8 +135,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
                                 endTapPosition = change.position
                             },
                             onDragEnd = {
-                                // ドラッグ終了時の処理
-                                swipeCard(startTapPosition, endTapPosition, rowWidth)
+                                isDragEnd = true
                             }
                         )
                     },

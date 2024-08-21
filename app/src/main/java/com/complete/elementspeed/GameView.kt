@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 class GameView: AppCompatActivity(), MyCallback {
     private lateinit var viewModel: GameViewModel
@@ -40,7 +42,7 @@ class GameView: AppCompatActivity(), MyCallback {
             ViewModelProvider(this)[GameViewModel::class.java], this
         )
         gameController = GameController(
-            ViewModelProvider(this)[GameViewModel::class.java], true
+            ViewModelProvider(this)[GameViewModel::class.java]
         )
 
         //カードが全く出せない場合はリセットを行う
@@ -78,26 +80,29 @@ class GameView: AppCompatActivity(), MyCallback {
         viewModel.updateDaihudas(daihudaList)
     }
 
-    override fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int) {
-        gameController.playBahuda(playerNumber, bahudaIndex, daihudaIndex) {
-            val winner = Judge().gameWinner(viewModel)
-            if (winner != null) {
-                //勝者が決まった場合
-                computerPlayer.stopRepeatingTask()
+    private val mutex = Mutex()
+    override suspend fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int) {
+        mutex.withLock {
+            gameController.playBahuda(playerNumber, bahudaIndex, daihudaIndex) {
+                val winner = Judge().gameWinner(viewModel)
+                if (winner != null) {
+                    //勝者が決まった場合
+                    computerPlayer.stopRepeatingTask()
 
-                val popupView = findViewById<ComposeView>(R.id.popup_view)
-                popupView.setContent {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = Color.Transparent
-                    ) {
-                        PopupToShowResult(winner) { restartGame() }
+                    val popupView = findViewById<ComposeView>(R.id.popup_view)
+                    popupView.setContent {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = Color.Transparent
+                        ) {
+                            PopupToShowResult(winner) { restartGame() }
+                        }
                     }
+                    popupView.visibility = View.VISIBLE
                 }
-                popupView.visibility = View.VISIBLE
-            }
-            else {
-                gameController.resetDaihudasWhenNeeded()
+                else {
+                    gameController.resetDaihudasWhenNeeded()
+                }
             }
         }
     }
@@ -115,5 +120,5 @@ class GameView: AppCompatActivity(), MyCallback {
 }
 
 interface MyCallback {
-    fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int)
+    suspend fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int)
 }
