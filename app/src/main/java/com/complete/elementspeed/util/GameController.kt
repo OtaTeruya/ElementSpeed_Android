@@ -48,14 +48,14 @@ class GameController(private val viewModel: GameViewModel) {
         completion()
     }
 
-    fun failToPlayBahuda(playerNumber: Int) {
+    fun failToPlayBahuda() {
         val tehudas = viewModel.tehudas1p.value.toMutableList()
         var tehudaNumber = viewModel.tehudaNumber1p.value
 
         tehudas.add(0, ElementProvider().getRandomElement())
         tehudaNumber += 1
 
-        var bahudas = viewModel.bahudas1p.value.toMutableList()
+        val bahudas = viewModel.bahudas1p.value.toMutableList()
         for (i in bahudas.indices) {
             if (bahudas[i] != null) {
                 continue

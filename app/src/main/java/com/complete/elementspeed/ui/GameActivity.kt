@@ -117,9 +117,9 @@ class GameActivity: AppCompatActivity(), MyCallback {
         }
     }
 
-    override suspend fun failToPlayBahuda(playerNumber: Int) {
+    override suspend fun failToPlayBahuda() {
         mutex.withLock {
-            gameController.failToPlayBahuda(playerNumber)
+            gameController.failToPlayBahuda()
 
             val frameLayout = findViewById<FrameLayout>(R.id.frame_layout)
             val overlayView = View(this).apply {
@@ -151,5 +151,5 @@ class GameActivity: AppCompatActivity(), MyCallback {
 
 interface MyCallback {
     suspend fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int)
-    suspend fun failToPlayBahuda(playerNumber: Int)
+    suspend fun failToPlayBahuda()
 }

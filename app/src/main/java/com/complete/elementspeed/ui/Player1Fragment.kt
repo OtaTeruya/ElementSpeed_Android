@@ -66,7 +66,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
             callback.playBahuda(1, bahudaIndex, daihudaIndex)
         }
         else {
-            callback.failToPlayBahuda(1)
+            callback.failToPlayBahuda()
         }
     }
 
