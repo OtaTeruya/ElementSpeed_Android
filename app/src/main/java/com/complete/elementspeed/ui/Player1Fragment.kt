@@ -54,20 +54,20 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
         }
     }
 
-    private suspend fun tryToPlay(bahudaIndex: Int, daihudaIndex: Int): Boolean {
+    private suspend fun tryToPlay(bahudaIndex: Int, daihudaIndex: Int) {
         val bahuda = viewModel.bahudas1p.value[bahudaIndex]
         val daihuda = viewModel.daihudas.value[daihudaIndex]
 
         if (bahuda==null || daihuda==null) {
-            return true
+            return
         }
 
         if (Judge().isBahudaPlaybale(bahuda, daihuda)) {
             callback.playBahuda(1, bahudaIndex, daihudaIndex)
-            return true
         }
-
-        return false
+        else {
+            callback.failToPlayBahuda(1)
+        }
     }
 
     private suspend fun swipeCard(start: Offset?, end: Offset?, width: Int) {

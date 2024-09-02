@@ -2,7 +2,11 @@ package com.complete.elementspeed.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -113,6 +117,26 @@ class GameActivity: AppCompatActivity(), MyCallback {
         }
     }
 
+    override suspend fun failToPlayBahuda(playerNumber: Int) {
+        mutex.withLock {
+            gameController.failToPlayBahuda(playerNumber)
+
+            val frameLayout = findViewById<FrameLayout>(R.id.frame_layout)
+            val overlayView = View(this).apply {
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                setBackgroundColor(getColor(R.color.transparentRed))
+            }
+            frameLayout.addView(overlayView)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                frameLayout.removeView(overlayView)
+            }, 500)
+        }
+    }
+
     private var touchPermission = true //二度実行されることの防止
     private fun restartGame() {
         if (!touchPermission) {
@@ -127,4 +151,5 @@ class GameActivity: AppCompatActivity(), MyCallback {
 
 interface MyCallback {
     suspend fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int)
+    suspend fun failToPlayBahuda(playerNumber: Int)
 }

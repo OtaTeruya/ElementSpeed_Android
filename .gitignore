@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+/ElementSpeed.jks
+/.idea/inspectionProfiles/Project_Default.xml
+/app/release/app-release.aab

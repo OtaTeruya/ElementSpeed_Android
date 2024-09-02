@@ -48,6 +48,28 @@ class GameController(private val viewModel: GameViewModel) {
         completion()
     }
 
+    fun failToPlayBahuda(playerNumber: Int) {
+        val tehudas = viewModel.tehudas1p.value.toMutableList()
+        var tehudaNumber = viewModel.tehudaNumber1p.value
+
+        tehudas.add(0, ElementProvider().getRandomElement())
+        tehudaNumber += 1
+
+        var bahudas = viewModel.bahudas1p.value.toMutableList()
+        for (i in bahudas.indices) {
+            if (bahudas[i] != null) {
+                continue
+            }
+            //場札がnullになっていた場合、そこに今追加したカードを出す
+            tehudaNumber = max(0, tehudaNumber-1)
+            bahudas[i] = tehudas[tehudaNumber]
+            break
+        }
+        viewModel.updateBahudas1p(bahudas)
+        viewModel.updateTehudas1p(tehudas)
+        viewModel.updateTehudaNumber1p(tehudaNumber)
+    }
+
     fun resetDaihudasWhenNeeded() {
         val daihuda = viewModel.daihudas.value.toMutableList()
         val elementProvider = ElementProvider()
