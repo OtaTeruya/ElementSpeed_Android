@@ -1,6 +1,5 @@
 package com.complete.elementspeed.ui
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -73,24 +72,6 @@ class GameActivity: AppCompatActivity(), MyCallback {
         computerPlayer.stopRepeatingTask()
     }
 
-    private fun setUpFullScreen() {
-        // 下のタブを消してフルスクリーンにする
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.decorView.windowInsetsController?.apply {
-                hide(WindowInsets.Type.systemBars())
-                systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-            // API 29以下の場合
-        } else {
-            window.decorView.systemUiVisibility = (
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_FULLSCREEN)
-        }
-    }
-
     private fun initializeAllCard() {
         val BAHUDA_NUM = 4
 
@@ -127,7 +108,7 @@ class GameActivity: AppCompatActivity(), MyCallback {
                             modifier = Modifier.fillMaxSize(),
                             color = Color.Transparent
                         ) {
-                            PopupToShowResult(winner) { restartGame() }
+                            PopupToShowResult(winner) { finishGame() }
                         }
                     }
                     popupView.visibility = View.VISIBLE
@@ -160,14 +141,30 @@ class GameActivity: AppCompatActivity(), MyCallback {
     }
 
     private var touchPermission = true //二度実行されることの防止
-    private fun restartGame() {
+    private fun finishGame() {
         if (!touchPermission) {
             return
         }
         touchPermission = false
-        val iSend = Intent(this, GameActivity::class.java)
-        startActivity(iSend)
         finish()
+    }
+
+    private fun setUpFullScreen() {
+        // 下のタブを消してフルスクリーンにする
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.decorView.windowInsetsController?.apply {
+                hide(WindowInsets.Type.systemBars())
+                systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+            // API 29以下の場合
+        } else {
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        }
     }
 }
 
