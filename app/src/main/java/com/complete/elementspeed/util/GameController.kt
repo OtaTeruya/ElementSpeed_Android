@@ -4,7 +4,7 @@ import com.complete.elementspeed.data.Element
 import com.complete.elementspeed.ui.GameViewModel
 import kotlin.math.max
 
-class GameController(private val viewModel: GameViewModel) {
+class GameController(private val viewModel: GameViewModel, private val difficulty: Int) {
     fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int, completion: () -> Unit) {
         //logを取る処理は後で考える
 
@@ -52,7 +52,7 @@ class GameController(private val viewModel: GameViewModel) {
         val tehudas = viewModel.tehudas1p.value.toMutableList()
         var tehudaNumber = viewModel.tehudaNumber1p.value
 
-        tehudas.add(0, ElementProvider().getRandomElement())
+        tehudas.add(0, ElementProvider(difficulty).getRandomElement())
         tehudaNumber += 1
 
         val bahudas = viewModel.bahudas1p.value.toMutableList()
@@ -72,7 +72,7 @@ class GameController(private val viewModel: GameViewModel) {
 
     fun resetDaihudasWhenNeeded() {
         val daihuda = viewModel.daihudas.value.toMutableList()
-        val elementProvider = ElementProvider()
+        val elementProvider = ElementProvider(difficulty)
         while (Judge().isToReset(viewModel)) {
             //カードが出せない限りはリセットし続ける
             for (i in daihuda.indices) {

@@ -27,7 +27,8 @@ import kotlinx.coroutines.sync.withLock
 
 class GameActivity: AppCompatActivity(), MyCallback {
     private lateinit var viewModel: GameViewModel
-    private val elementProvider = ElementProvider()
+    private var level = 0
+    private lateinit var elementProvider: ElementProvider
     private lateinit var computerPlayer: ComputerPlayer
     private lateinit var gameController: GameController
 
@@ -35,6 +36,8 @@ class GameActivity: AppCompatActivity(), MyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.view_game)
         setUpFullScreen()
+        level = intent.getIntExtra("level", 0)
+        elementProvider = ElementProvider(level)
 
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
         initializeAllCard()
@@ -55,7 +58,7 @@ class GameActivity: AppCompatActivity(), MyCallback {
             ViewModelProvider(this)[GameViewModel::class.java], this
         )
         gameController = GameController(
-            ViewModelProvider(this)[GameViewModel::class.java]
+            ViewModelProvider(this)[GameViewModel::class.java], level
         )
 
         //カードが全く出せない場合はリセットを行う

@@ -14,17 +14,22 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.complete.elementspeed.R
+import com.complete.elementspeed.util.LevelTextDict
 
 class ChooseModeActivity: ComponentActivity() {
     private var touchPermission = true
@@ -43,26 +48,31 @@ class ChooseModeActivity: ComponentActivity() {
         }
     }
 
-    private fun moveToGameActivityOnClick() {
+    private fun moveToGameActivityOnClick(level: Int) {
         if (!touchPermission) {
             return
         }
         touchPermission = false
-        
-        startActivity(Intent(this, GameActivity::class.java))
+
+        val iSend = Intent(this, GameActivity::class.java)
+        iSend.putExtra("level", level)
+        startActivity(iSend)
 
         Handler(Looper.getMainLooper()).postDelayed({
             touchPermission = true
         }, 2000)
     }
 
+    private val levelTextDict = LevelTextDict()
     @Composable
-    fun CustomButtonView() {
+    fun CustomButtonView(difficulty: Int) {
         Button(
-            onClick = {moveToGameActivityOnClick()}
+            onClick = {moveToGameActivityOnClick(difficulty)},
+            shape = RectangleShape,
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
         ) {
             Text(
-                text = "遊ぶ",
+                text = levelTextDict.getText(difficulty),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -76,7 +86,9 @@ class ChooseModeActivity: ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Spacer(modifier = Modifier.weight(1f))
-            CustomButtonView()
+            CustomButtonView(0)
+            Spacer(modifier = Modifier.height(32.dp))
+            CustomButtonView(1)
             Spacer(modifier = Modifier.weight(1f))
         }
 
