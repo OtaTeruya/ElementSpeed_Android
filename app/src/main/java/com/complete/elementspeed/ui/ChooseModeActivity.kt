@@ -36,7 +36,6 @@ class ChooseModeActivity: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpFullScreen()
 
         setContent {
             Surface(
@@ -46,6 +45,11 @@ class ChooseModeActivity: ComponentActivity() {
                 ChooseModeScreen()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUpFullScreen()
     }
 
     private fun moveToGameActivityOnClick(level: Int) {

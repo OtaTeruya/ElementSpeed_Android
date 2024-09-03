@@ -35,7 +35,7 @@ class GameActivity: AppCompatActivity(), MyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.view_game)
-        setUpFullScreen()
+
         level = intent.getIntExtra("level", 0)
         elementProvider = ElementProvider(level)
 
@@ -67,6 +67,7 @@ class GameActivity: AppCompatActivity(), MyCallback {
 
     override fun onResume() {
         super.onResume()
+        setUpFullScreen()
         computerPlayer.startRepeatingTask()
     }
 
