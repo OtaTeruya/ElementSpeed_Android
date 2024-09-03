@@ -1,11 +1,14 @@
 package com.complete.elementspeed.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +35,7 @@ class GameActivity: AppCompatActivity(), MyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.view_game)
+        setUpFullScreen()
 
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
         initializeAllCard()
@@ -67,6 +71,24 @@ class GameActivity: AppCompatActivity(), MyCallback {
     override fun onPause() {
         super.onPause()
         computerPlayer.stopRepeatingTask()
+    }
+
+    private fun setUpFullScreen() {
+        // 下のタブを消してフルスクリーンにする
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.decorView.windowInsetsController?.apply {
+                hide(WindowInsets.Type.systemBars())
+                systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+            // API 29以下の場合
+        } else {
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        }
     }
 
     private fun initializeAllCard() {

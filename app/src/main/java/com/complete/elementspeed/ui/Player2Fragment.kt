@@ -63,6 +63,7 @@ class Player2Fragment : Fragment() {
             Text(
                 text = tehudaNumber2p.toString(),
                 fontSize = 16.sp,
+                color = Color.White,
                 modifier = Modifier.padding(8.dp)
             )
         }

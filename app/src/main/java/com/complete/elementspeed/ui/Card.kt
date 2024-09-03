@@ -4,12 +4,16 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,8 +25,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.complete.elementspeed.R
 import com.complete.elementspeed.data.Element
 
 @Composable
@@ -52,49 +58,67 @@ fun Card(element: Element?) {
             fadeIn() togetherWith fadeOut()
         }
     ) {it ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(
                     (LocalConfiguration.current.screenWidthDp * 0.22).dp,
-                    (LocalConfiguration.current.screenHeightDp * 0.22).dp
+                    (LocalConfiguration.current.screenWidthDp * 0.36).dp
                 )
-                .background(if(it!=null) Color.Gray else Color.Transparent)
+                .border(
+                    width = 1.dp,
+                    color = (if (it != null) Color.Black else Color.Transparent),
+                    shape = RoundedCornerShape(10)
+                )
+                .background(
+                    color = (if (it != null) Color.White else Color.Transparent),
+                    shape = RoundedCornerShape(10)
+                )
                 .padding(4.dp)
         ) {
             if (it != null) {
-                Row {
-                    Text(
-                        text = it.elementNumber.toString(),
-                        fontSize = 16.sp,
-                        color = Color.Black
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                AutoSizableText(
-                    text = it.elementSymbol,
-                    minFontSize = 12.sp,
-                    maxFontSize = 48.sp
+                Image(
+                    painter = painterResource(id = R.drawable.element_image),
+                    contentDescription = null
                 )
 
-                AutoSizableText(
-                    text = it.elementNameJa,
-                    minFontSize = 8.sp,
-                    maxFontSize = 16.sp
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
 
-                Spacer(modifier = Modifier.weight(1f))
+                    Row {
+                        Text(
+                            text = it.elementNumber.toString(),
+                            fontSize = 16.sp,
+                            color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
 
-                Row {
                     Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        text = it.elementGroup.toString(),
-                        fontSize = 16.sp,
-                        color = Color.Black
+
+                    AutoSizableText(
+                        text = it.elementSymbol,
+                        minFontSize = 12.sp,
+                        maxFontSize = 48.sp
                     )
+
+                    AutoSizableText(
+                        text = it.elementNameJa,
+                        minFontSize = 8.sp,
+                        maxFontSize = 16.sp
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Row {
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = it.elementGroup.toString(),
+                            fontSize = 16.sp,
+                            color = Color.Black
+                        )
+                    }
                 }
             }
         }

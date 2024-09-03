@@ -117,6 +117,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
             Text(
                 text = tehudaNumber1p.toString(),
                 fontSize = 16.sp,
+                color = Color.White,
                 modifier = Modifier.padding(8.dp)
             )
 
