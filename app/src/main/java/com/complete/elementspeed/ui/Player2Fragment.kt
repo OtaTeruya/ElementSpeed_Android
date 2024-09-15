@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 
-class Player2Fragment : Fragment() {
+class Player2Fragment(private val hintIsNeeded: Boolean) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,7 +56,7 @@ class Player2Fragment : Fragment() {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 for (i in bahudas2p.indices) {
-                    Card(bahudas2p[i])
+                    Card(bahudas2p[i], hintIsNeeded)
                 }
             }
 

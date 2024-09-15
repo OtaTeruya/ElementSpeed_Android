@@ -22,12 +22,15 @@ import com.complete.elementspeed.util.ElementProvider
 import com.complete.elementspeed.util.GameController
 import com.complete.elementspeed.util.Judge
 import com.complete.elementspeed.R
+import com.complete.elementspeed.util.JudgeRule
+import com.complete.elementspeed.util.LevelData
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 class GameActivity: AppCompatActivity(), MyCallback {
     private lateinit var viewModel: GameViewModel
     private var level = 0
+    private lateinit var judgeRule: JudgeRule
     private lateinit var elementProvider: ElementProvider
     private lateinit var computerPlayer: ComputerPlayer
     private lateinit var gameController: GameController
@@ -37,17 +40,19 @@ class GameActivity: AppCompatActivity(), MyCallback {
         setContentView(R.layout.view_game)
 
         level = intent.getIntExtra("level", 0)
+        judgeRule = LevelData().getJudgeRule(level)
         elementProvider = ElementProvider(level)
 
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
         initializeAllCard()
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.ly_2p, Player2Fragment())
+            .replace(R.id.ly_2p, Player2Fragment(LevelData().getHintIsNeeded(level)))
             .commit()
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.ly_1p, Player1Fragment(this))
+            .replace(R.id.ly_1p, Player1Fragment(
+                this, judgeRule, LevelData().getHintIsNeeded(level)))
             .commit()
 
         supportFragmentManager.beginTransaction()
@@ -55,10 +60,10 @@ class GameActivity: AppCompatActivity(), MyCallback {
             .commit()
 
         computerPlayer = ComputerPlayer(
-            ViewModelProvider(this)[GameViewModel::class.java], this
+            ViewModelProvider(this)[GameViewModel::class.java], this, judgeRule
         )
         gameController = GameController(
-            ViewModelProvider(this)[GameViewModel::class.java], level
+            ViewModelProvider(this)[GameViewModel::class.java], level, judgeRule
         )
 
         //カードが全く出せない場合はリセットを行う
@@ -101,7 +106,7 @@ class GameActivity: AppCompatActivity(), MyCallback {
     override suspend fun playBahuda(playerNumber: Int, bahudaIndex: Int, daihudaIndex: Int) {
         mutex.withLock {
             gameController.playBahuda(playerNumber, bahudaIndex, daihudaIndex) {
-                val winner = Judge().gameWinner(viewModel)
+                val winner = Judge(judgeRule).gameWinner(viewModel)
                 if (winner != null) {
                     //勝者が決まった場合
                     computerPlayer.stopRepeatingTask()

@@ -11,7 +11,8 @@ import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 
-class ComputerPlayer(private val viewModel: GameViewModel, private val callback: MyCallback) {
+class ComputerPlayer(
+    private val viewModel: GameViewModel, private val callback: MyCallback, private val judgeRule: JudgeRule) {
     private val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
     private var job: Job? = null
     private val INTERVAL_MILLIS = 3000L
@@ -45,7 +46,7 @@ class ComputerPlayer(private val viewModel: GameViewModel, private val callback:
         //出せるカードがあればプレイする
         val bahudas2p = viewModel.bahudas2p.value
         val daihudas = viewModel.daihudas.value
-        val (isPlayable, bahudaIndex, daihudaIndex) = Judge().searchPlayableCard(bahudas2p, daihudas)
+        val (isPlayable, bahudaIndex, daihudaIndex) = Judge(judgeRule).searchPlayableCard(bahudas2p, daihudas)
 
         if (!isPlayable) {
             //プレイできるカードが無ければ

@@ -32,7 +32,7 @@ import com.complete.elementspeed.R
 import com.complete.elementspeed.data.Element
 
 @Composable
-fun Card(element: Element?) {
+fun Card(element: Element?, hintIsNeeded: Boolean = true) {
     // 前のelementを保持
     var currentElement by remember { mutableStateOf(element) }
     var isAnimating by remember { mutableStateOf(false) }
@@ -86,38 +86,48 @@ fun Card(element: Element?) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
 
-                    Row {
-                        Text(
-                            text = it.elementNumber.toString(),
-                            fontSize = 16.sp,
-                            color = Color.Black
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
+                    if (hintIsNeeded) {
+                        Row {
+                            Text(
+                                text = it.number.toString(),
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
                     }
 
                     Spacer(modifier = Modifier.weight(1f))
 
                     AutoSizableText(
-                        text = it.elementSymbol,
+                        text = it.symbol,
                         minFontSize = 12.sp,
                         maxFontSize = 48.sp
                     )
 
-                    AutoSizableText(
-                        text = it.elementNameJa,
-                        minFontSize = 8.sp,
-                        maxFontSize = 16.sp
-                    )
+                    if (hintIsNeeded) {
+                        AutoSizableText(
+                            text = it.nameJa,
+                            minFontSize = 8.sp,
+                            maxFontSize = 16.sp
+                        )
+                    }
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    Row {
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = it.elementGroup.toString(),
-                            fontSize = 16.sp,
-                            color = Color.Black
-                        )
+                    if (hintIsNeeded) {
+                        Row {
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(
+                                text = when (it.group) {
+                                    101 -> "la"
+                                    102 -> "ac"
+                                    else -> it.group.toString()
+                                },
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
                 }
             }

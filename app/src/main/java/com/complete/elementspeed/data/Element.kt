@@ -1,10 +1,9 @@
 package com.complete.elementspeed.data
 
 data class Element (
-    val elementNumber: Int,
-    val elementGroup: Int,
-    val elementSymbol: String,
-    val elementNameJa: String,
-    val elementNameEn: String,
-    val elementWeight: Double
+    val number: Int,
+    val group: Int,
+    val symbol: String,
+    val nameJa: String,
+    val textLength: Int
 )

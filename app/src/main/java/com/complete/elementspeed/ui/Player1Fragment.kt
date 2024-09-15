@@ -33,9 +33,12 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.complete.elementspeed.util.Judge
+import com.complete.elementspeed.util.JudgeRule
 import kotlin.math.min
 
-class Player1Fragment(private val callback: MyCallback) : Fragment() {
+class Player1Fragment(private val callback: MyCallback,
+                      private val judgeRule: JudgeRule,
+                      private val hintIsNeeded: Boolean) : Fragment() {
     private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
@@ -62,7 +65,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
             return
         }
 
-        if (Judge().isBahudaPlaybale(bahuda, daihuda)) {
+        if (Judge(judgeRule).isBahudaPlaybale(bahuda, daihuda)) {
             callback.playBahuda(1, bahudaIndex, daihudaIndex)
         }
         else {
@@ -142,7 +145,7 @@ class Player1Fragment(private val callback: MyCallback) : Fragment() {
                     },
             ) {
                 for (i in bahudas1p.indices) {
-                    Card(bahudas1p[i])
+                    Card(bahudas1p[i], hintIsNeeded)
                 }
             }
         }
