@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PopupToShowResult(winner: String, action: () -> Unit) {
+fun PopupToShowResult(levelText: String, winner: String, action: () -> Unit) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -36,12 +36,17 @@ fun PopupToShowResult(winner: String, action: () -> Unit) {
                     color = Color.Gray,
                     shape = RectangleShape
                 )
-                .padding(8.dp)
+                .padding(12.dp)
         ) {
+            Text(
+                text = levelText,
+                fontSize = 24.sp,
+            )
+
             Text(
                 text = winner + "の勝ち！",
                 fontSize = 24.sp,
-                modifier = Modifier.padding(vertical = 12.dp)
+                modifier = Modifier.padding(12.dp)
             )
 
             Button(

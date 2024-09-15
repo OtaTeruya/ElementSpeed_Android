@@ -117,7 +117,7 @@ class GameActivity: AppCompatActivity(), MyCallback {
                             modifier = Modifier.fillMaxSize(),
                             color = Color.Transparent
                         ) {
-                            PopupToShowResult(winner) { finishGame() }
+                            PopupToShowResult(LevelData().getText(level), winner) { finishGame() }
                         }
                     }
                     popupView.visibility = View.VISIBLE
